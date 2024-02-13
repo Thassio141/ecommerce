@@ -24,7 +24,7 @@ public class Product {
     private Double price;
 
     private String description;
-    
+
     @Lob
     private byte[] image;
 
@@ -33,6 +33,9 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItemList = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

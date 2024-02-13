@@ -5,14 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "order_item")
-public class OrderItem {
+@Table(name = "shop_cart")
+public class ShopCart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -20,16 +22,12 @@ public class OrderItem {
 
     private Integer quantity;
 
-    private Double price;
+    @OneToOne
+    private User user;
 
-    private Double subtotal;
-
-    @ManyToOne
-    private Product product;
-
-    @ManyToOne
-    private ShopCart shopCart;
-
-    @ManyToOne
+    @OneToOne(mappedBy = "shopCart")
     private Order order;
+
+    @OneToMany(mappedBy = "shopCart", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItemList = new ArrayList<>();
 }

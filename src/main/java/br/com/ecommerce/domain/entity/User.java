@@ -52,6 +52,9 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private WishList wishList;
 
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    private ShopCart shopCart;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

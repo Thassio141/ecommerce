@@ -6,8 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Data
@@ -20,12 +19,18 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
-    private User user;
-
     private StatusOrder statusOrder;
 
     private Double totalPrice;
 
     private Date date;
+
+    @ManyToOne
+    private User user;
+
+    @OneToOne
+    private ShopCart shopCart;
+
+    @OneToMany(mappedBy = "order")
+    private Set<OrderItem> orderItemList = new HashSet<>();
 }
