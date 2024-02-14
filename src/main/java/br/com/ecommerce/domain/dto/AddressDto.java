@@ -1,4 +1,4 @@
 package br.com.ecommerce.domain.dto;
 
-public enum AddressDto {
+public record AddressDto() {
 }

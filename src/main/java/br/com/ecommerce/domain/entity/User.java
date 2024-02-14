@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -37,6 +38,13 @@ public class User implements UserDetails {
     @Lob
     private byte[] profilePicture;
 
+    public User(String name,String email, String password, ActivityStatus userStatus) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.userStatus = userStatus;
+    }
+
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Address> addressList = new ArrayList<>();
 
@@ -57,36 +65,52 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        switch (this.userRole) {
+
+            case ADMIN -> {
+                return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),
+                        new SimpleGrantedAuthority("ROLE_CUSTOMER"),
+                        new SimpleGrantedAuthority("ROLE_MANAGER"));
+            }
+
+            case MANAGER -> {
+                return List.of(new SimpleGrantedAuthority("ROLE_MANAGER"),
+                        new SimpleGrantedAuthority("ROLE_CUSTOMER"));
+            }
+
+            default -> {
+                return List.of(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
+            }
+        }
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return email;
     }
 
     @Override
     public String getPassword(){
-        return null;
+        return password;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
