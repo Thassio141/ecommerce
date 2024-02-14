@@ -21,6 +21,7 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     private final CategoryRepository categoryRepository;
+
     private final ProductMapper productMapper;
 
     @Autowired
@@ -36,7 +37,7 @@ public class ProductService {
         return productPage.map(productMapper.INSTANCE::convertEntityToDto);
     }
 
-    public ProductDto findCategoryById(UUID id){
+    public ProductDto findProductById(UUID id){
         return productMapper.INSTANCE.convertEntityToDto(findEntityById(id));
     }
 
@@ -45,7 +46,6 @@ public class ProductService {
         Category category = categoryRepository.findById(productCreateDto.category()).orElseThrow();
         // Não deve continuar a criacao se der erro
         Product product = productMapper.INSTANCE.convertCreateDtoToEntity(productCreateDto);
-        product.setCategory(category);
         productRepository.save(product);
         return productMapper.INSTANCE.convertEntityToCreateDto(product);
     }

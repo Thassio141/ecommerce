@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.*;
 
 @Entity
 @Data
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "products")
